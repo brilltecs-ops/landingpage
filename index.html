@@ -1,0 +1,2487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Amaoru — Enterprise Execution Intelligence &amp; Value Assurance</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <style>
+        /* ── BRAND TOKENS ─────────────────────────────────────────────────── */
+        :root {
+            --navy-900: #061B3A;
+            --navy-800: #0b1f44;
+            --navy-700: #00173d;
+            --navy-600: #002b60;
+            --navy-100: #eef2f8;
+            --navy-50: #f4f7fc;
+            --gold: #C89A2B;
+            --gold-light: #fff8e8;
+            --gold-mid: #f5e3b0;
+            --teal: #1a8a7a;
+            --teal-light: #e6f6f4;
+            --orange: #e07020;
+            --orange-light: #fff0e6;
+            --purple: #6a4bb0;
+            --purple-light: #f3eeff;
+            --green: #1a7a3e;
+            --green-light: #e8f5ee;
+            --blue: #1a6b9a;
+            --blue-light: #e8f4fc;
+            --page: #f8fafc;
+            --page2: #eef3f8;
+            --white: #fff;
+            --text: #061B3A;
+            --muted: #667086;
+            --light: #8b96a8;
+            --border: #d7dde7;
+            --border-lt: #eef1f5;
+            --shadow: 0 4px 24px rgba(6, 27, 58, .08);
+            --shadow-lg: 0 20px 60px rgba(6, 27, 58, .14);
+            --r: 10px;
+            --r-md: 18px;
+            --r-lg: 28px;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'DM Sans', system-ui, sans-serif;
+            background: var(--page);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        button {
+            cursor: pointer;
+            font-family: inherit;
+            border: 0;
+            background: none;
+        }
+        .container {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 5vw;
+        }
+        .eyebrow {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: .68rem;
+            letter-spacing: .38em;
+            text-transform: uppercase;
+            color: var(--gold);
+            display: block;
+            margin-bottom: .9rem;
+        }
+        .eyebrow-teal {
+            color: var(--teal);
+        }
+        .h2 {
+            font-family: 'DM Serif Display', Georgia, serif;
+            font-size: clamp(1.9rem, 3.4vw, 3rem);
+            color: var(--navy-900);
+            font-weight: 400;
+            line-height: 1.15;
+            letter-spacing: -.02em;
+            margin-bottom: .85rem;
+        }
+        .h2 .gold {
+            font-style: italic;
+            color: var(--gold);
+        }
+        .h2 .gold-gradient {
+            font-style: italic;
+            background: linear-gradient(135deg, var(--gold), #b07000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: #b07000;
+        }
+        .sub {
+            font-size: 1.02rem;
+            color: var(--muted);
+            line-height: 1.78;
+            max-width: 560px;
+        }
+        .anim {
+            opacity: 0;
+            transform: translateY(26px);
+            transition: opacity .6s ease, transform .6s ease;
+        }
+        .anim.v {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── REDUCED MOTION ────────────────────────────────────────────────── */
+        @media (prefers-reduced-motion: reduce) {
+            .anim {
+                transition: none;
+                opacity: 1;
+                transform: none;
+            }
+            .lv-card,
+            .mod-card,
+            .stat-n span,
+            .stage {
+                transition: none !important;
+            }
+            .hero-badge-dot {
+                animation: none;
+            }
+            [class*="btn"]:hover {
+                transform: none !important;
+            }
+        }
+
+        /* ── SKIP LINK ───────────────────────────────────────────────────── */
+        .skip-link {
+            position: absolute;
+            top: -100%;
+            left: 0;
+            padding: 0.75rem 1.5rem;
+            background: var(--navy-700);
+            color: #fff;
+            z-index: 9999;
+            font-weight: 600;
+            border-radius: 0 0 var(--r) 0;
+        }
+        .skip-link:focus {
+            top: 0;
+        }
+
+        /* ── FOCUS VISIBLE ────────────────────────────────────────────────── */
+        :focus-visible {
+            outline: 2px solid var(--gold);
+            outline-offset: 2px;
+            border-radius: 2px;
+        }
+
+        /* ── NAV ──────────────────────────────────────────────────────────── */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 999;
+            background: rgba(248, 250, 252, .95);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-lt);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: .9rem 5vw;
+        }
+        .logo-wrap {
+            display: flex;
+            align-items: center;
+            gap: .6rem;
+        }
+        .logo-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            flex-shrink: 0;
+        }
+        .logo-icon svg {
+            width: 100%;
+            height: 100%;
+        }
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.1;
+        }
+        .logo-name {
+            font-family: 'DM Serif Display', Georgia, serif;
+            letter-spacing: .18em;
+            font-size: 1.2rem;
+            color: var(--navy-900);
+        }
+        .logo-name .gold-letter {
+            color: var(--gold);
+        }
+        .logo-sub {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: .48rem;
+            letter-spacing: .28em;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin-top: .05rem;
+        }
+        .nav-links {
+            display: flex;
+            gap: 1.75rem;
+        }
+        .nav-links a {
+            font-size: .88rem;
+            font-weight: 500;
+            color: var(--muted);
+            transition: color .18s;
+        }
+        .nav-links a:hover {
+            color: var(--navy-900);
+        }
+        .nav-btns {
+            display: flex;
+            align-items: center;
+            gap: .85rem;
+        }
+        .btn-nav-demo {
+            background: linear-gradient(135deg, var(--navy-700), var(--navy-600));
+            color: #fff;
+            font-size: .85rem;
+            font-weight: 700;
+            padding: .65rem 1.35rem;
+            border-radius: var(--r);
+            letter-spacing: .02em;
+            transition: opacity .18s;
+        }
+        .btn-nav-demo:hover {
+            opacity: .86;
+        }
+        .btn-nav-in {
+            font-size: .85rem;
+            font-weight: 600;
+            color: var(--navy-800);
+        }
+
+        /* ── HAMBURGER ────────────────────────────────────────────────────── */
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            padding: 4px;
+            background: none;
+            border: 0;
+            cursor: pointer;
+        }
+        .nav-toggle span {
+            display: block;
+            width: 24px;
+            height: 2.5px;
+            background: var(--navy-900);
+            border-radius: 2px;
+            transition: transform .25s ease, opacity .25s ease;
+        }
+        .nav-toggle.open span:nth-child(1) {
+            transform: translateY(7.5px) rotate(45deg);
+        }
+        .nav-toggle.open span:nth-child(2) {
+            opacity: 0;
+        }
+        .nav-toggle.open span:nth-child(3) {
+            transform: translateY(-7.5px) rotate(-45deg);
+        }
+
+        /* ── STICKY CTA ───────────────────────────────────────────────────── */
+        .sticky-cta {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 998;
+            background: linear-gradient(135deg, var(--gold), #b07000);
+            color: var(--navy-900);
+            font-weight: 800;
+            font-size: .9rem;
+            padding: .85rem 1.6rem;
+            border-radius: 999px;
+            box-shadow: 0 8px 28px rgba(200, 154, 43, .38);
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            transition: opacity .3s, transform .3s, box-shadow .2s;
+            opacity: 0;
+            transform: translateY(20px) scale(.96);
+            pointer-events: none;
+            border: 0;
+        }
+        .sticky-cta.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+        .sticky-cta:hover {
+            box-shadow: 0 14px 40px rgba(200, 154, 43, .5);
+            transform: translateY(-2px) scale(1);
+        }
+        .sticky-cta .arr {
+            font-size: 1.1rem;
+        }
+
+        /* ── HERO ────────────────────────────────────────────────────────── */
+        .hero {
+            min-height: 100vh;
+            min-height: 100dvh;
+            background: linear-gradient(155deg, var(--page) 45%, var(--page2) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 8rem 5vw 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(var(--border-lt) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border-lt) 1px, transparent 1px);
+            background-size: 52px 52px;
+            pointer-events: none;
+            opacity: .65;
+        }
+        .hero-glow {
+            position: absolute;
+            right: -8%;
+            top: -5%;
+            width: 52vw;
+            height: 52vw;
+            max-width: 820px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 40% 40%, rgba(200, 154, 43, .07) 0%, rgba(6, 27, 58, .04) 55%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero-layout {
+            position: relative;
+            display: grid;
+            grid-template-columns: 1.05fr .95fr;
+            gap: 5rem;
+            align-items: center;
+            max-width: 1180px;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: .55rem;
+            background: var(--gold-light);
+            border: 1px solid rgba(200, 154, 43, .25);
+            border-radius: 999px;
+            padding: .4rem .95rem .4rem .65rem;
+            font-size: .78rem;
+            font-weight: 600;
+            color: #7a5200;
+            margin-bottom: 2.2rem;
+            letter-spacing: .02em;
+        }
+        .hero-badge-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--gold);
+            animation: pulse 2.2s ease infinite;
+        }
+        @keyframes pulse {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.12);
+            }
+        }
+        .hero h1 {
+            font-family: 'DM Serif Display', Georgia, serif;
+            font-size: clamp(2.6rem, 5vw, 4.8rem);
+            color: var(--navy-900);
+            line-height: 1.07;
+            font-weight: 400;
+            letter-spacing: -.03em;
+            margin-bottom: 1.35rem;
+        }
+        .hero h1 em {
+            font-style: italic;
+            background: linear-gradient(135deg, var(--gold), #b07000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: #b07000;
+        }
+        .hero-sub {
+            font-size: 1.1rem;
+            color: var(--muted);
+            line-height: 1.78;
+            max-width: 520px;
+            margin-bottom: 2.6rem;
+        }
+        .hero-ctas {
+            display: flex;
+            gap: .9rem;
+            flex-wrap: wrap;
+            margin-bottom: 3.2rem;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--navy-700), var(--navy-600));
+            color: #fff;
+            font-size: .97rem;
+            font-weight: 700;
+            padding: .95rem 2.1rem;
+            border-radius: var(--r-md);
+            display: inline-flex;
+            align-items: center;
+            gap: .6rem;
+            box-shadow: 0 10px 28px rgba(6, 27, 58, .2);
+            transition: box-shadow .2s, transform .18s;
+            letter-spacing: .02em;
+        }
+        .btn-primary:hover {
+            box-shadow: 0 16px 40px rgba(6, 27, 58, .28);
+            transform: translateY(-1px);
+        }
+        .btn-primary .arr {
+            font-size: 1.2rem;
+            color: var(--gold);
+        }
+        .btn-outline {
+            background: var(--white);
+            color: var(--navy-800);
+            font-size: .97rem;
+            font-weight: 600;
+            padding: .95rem 1.9rem;
+            border-radius: var(--r-md);
+            border: 1.5px solid var(--border);
+            transition: border-color .18s, box-shadow .18s;
+        }
+        .btn-outline:hover {
+            border-color: var(--navy-100);
+            box-shadow: var(--shadow);
+        }
+        .hero-proof {
+            display: flex;
+            gap: 1.75rem;
+            flex-wrap: wrap;
+        }
+        .hero-proof-item {
+            display: flex;
+            align-items: center;
+            gap: .45rem;
+            font-size: .82rem;
+            color: var(--muted);
+        }
+        .hero-proof-icon {
+            color: var(--gold);
+        }
+        .hero-proof-sep {
+            width: 1px;
+            height: 18px;
+            background: var(--border);
+            display: inline-block;
+        }
+
+        /* ── LIFECYCLE VISUAL (right col) ────────────────────────────────── */
+        .lifecycle-visual {
+            position: relative;
+            display: grid;
+            gap: 10px;
+        }
+        .lv-top {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .lv-card {
+            background: var(--white);
+            border: 1px solid var(--border-lt);
+            border-radius: var(--r-md);
+            padding: 1.1rem 1.2rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            gap: .75rem;
+            align-items: flex-start;
+        }
+        .lv-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+        .lv-kicker {
+            font-size: .67rem;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .07em;
+            margin-bottom: .2rem;
+        }
+        .lv-val {
+            font-size: .88rem;
+            font-weight: 600;
+            color: var(--navy-900);
+            line-height: 1.3;
+        }
+        .lv-pill {
+            display: inline-block;
+            font-size: .64rem;
+            font-weight: 700;
+            padding: .16rem .5rem;
+            border-radius: 999px;
+            margin-top: .28rem;
+        }
+
+        /* ── TRUST BAR ────────────────────────────────────────────────────── */
+        .trust {
+            background: var(--white);
+            border-top: 1px solid var(--border-lt);
+            border-bottom: 1px solid var(--border-lt);
+            padding: 1.5rem 5vw;
+        }
+        .trust-inner {
+            max-width: 1180px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        .trust-lbl {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: .64rem;
+            letter-spacing: .28em;
+            text-transform: uppercase;
+            color: var(--light);
+            white-space: nowrap;
+        }
+        .trust-pills {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .trust-pill {
+            font-size: .82rem;
+            font-weight: 600;
+            color: var(--navy-100);
+            letter-spacing: .03em;
+            text-transform: uppercase;
+        }
+
+        /* ── SECTIONS ────────────────────────────────────────────────────── */
+        .section {
+            padding: 5.5rem 5vw;
+        }
+        .sec-hdr {
+            margin-bottom: 3rem;
+        }
+        .sec-hdr.center {
+            text-align: center;
+        }
+        .sec-hdr.center .sub {
+            margin: 0 auto;
+        }
+
+        /* ── PROBLEM ──────────────────────────────────────────────────────── */
+        .problem {
+            background: var(--white);
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 1.5px;
+            background: var(--border-lt);
+            border: 1.5px solid var(--border-lt);
+            border-radius: var(--r-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            margin-top: 2.5rem;
+        }
+        .stat-cell {
+            background: var(--white);
+            padding: 2.25rem 1.75rem;
+        }
+        .stat-n {
+            font-family: 'DM Serif Display', Georgia, serif;
+            font-size: 3rem;
+            color: var(--navy-900);
+            line-height: 1;
+            margin-bottom: .5rem;
+        }
+        .stat-n span {
+            color: var(--gold);
+        }
+        .stat-l {
+            font-size: .88rem;
+            color: var(--muted);
+            line-height: 1.55;
+        }
+        .stat-source {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: .55rem;
+            color: var(--light);
+            letter-spacing: .04em;
+            margin-top: .6rem;
+            display: block;
+        }
+        .pull-quote {
+            margin-top: 2.5rem;
+            padding: 1.5rem 1.75rem;
+            border-left: 3px solid var(--gold);
+            background: var(--gold-light);
+            border-radius: 0 var(--r) var(--r) 0;
+        }
+        .pull-quote p {
+            font-family: 'DM Serif Display', Georgia, serif;
+            font-size: 1.1rem;
+            color: var(--navy-900);
+            line-height: 1.7;
+            font-style: italic;
+        }
+
+        /* ── POSITIONING ──────────────────────────────────────────────────── */
+        .positioning {
+            background: var(--page2);
+        }
+        .pos-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        .pos-chain {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            margin-top: 2rem;
+        }
+        .pos-step {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+            padding: 1.1rem 1.2rem;
+            background: var(--white);
+            border: 1px solid var(--border-lt);
+            position: relative;
+        }
+        .pos-step:first-child {
+            border-radius: var(--r-md) var(--r-md) 0 0;
+        }
+        .pos-step:last-child {
+            border-radius: 0 0 var(--r-md) var(--r-md);
+        }
+        .pos-step+.pos-step {
+            border-top: 0;
+        }
+        .pos-step-num {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: .65rem;
+            color: var(--light);
+            letter-spacing: .18em;
+            margin-top: .18rem;
+            flex-shrink: 0;
+            min-width: 22px;
+        }
+        .pos-step-icon {
+            font-size: 1.15rem;
+            flex-shrink: 0;
+            margin-top: .05rem;
+        }
+        .pos-step-title {
+            font-weight: 700;
+            color: var(--navy-900);
+            font-size: .93rem;
+            margin-bottom: .2rem;
+        }
+        .pos-step-desc {
+            font-size: .82rem;
+            color: var(--muted);
+            line-height: 1.55;
+        }
+        .pos-connector {
+            width: 2px;
+            height: 16px;
+            background: var(--border-lt);
+            margin-left: calc(1rem + 22px + 1rem + .55rem);
+        }
+
+        /* Work-to-Wisdom chain */
+        .w2w {
+            margin-top: 3rem;
+        }
+        .w2w-bar {
+            display: flex;
+            align-items: stretch;
+            background: var(--border-lt);
+            gap: 1.5px;
+            border-radius: var(--r-lg);
+            overflow: hidden;
+        }
+        .w2w-cell {
+            flex: 1;
+            background: var(--white);
+            padding: 1.4rem 1.1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: .5rem;
+        }
+        .w2w-icon {
+            font-size: 1.4rem;
+        }
+        .w2w-label {
+            font-weight: 700;
+            font-size: .85rem;
+            color: var(--navy-900);
+        }
+        .w2w-sub {
+            font-size: .74rem;
+            color: var(--muted);
+            line-height: 1.4;
+        }
+        .w2w-arrow {
+            display: flex;
+            align-items: center;
+            color: var(--gold);
+            font-size: .95rem;
+            background: var(--white);
+            padding: 0 .35rem;
+        }
+
+        /* ── LIFECYCLE ────────────────────────────────────────────────────── */
+        .lifecycle {
+            background: var(--white);
+        }
+
+        /* SVG lifecycle diagram wrapper */
+        .lifecycle-svg-wrap {
+            margin-top: 2rem;
+            background: var(--white);
+            border-radius: var(--r-lg);
+            border: 1px solid var(--border-lt);
+            box-shadow: var(--shadow);
+            padding: 1.5rem 1.5rem 0.5rem 1.5rem;
+            overflow: hidden;
+        }
+        .lifecycle-svg-wrap svg {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .lifecycle-stages {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1.5px;
+            background: var(--border-lt);
+            border: 1.5px solid var(--border-lt);
+            border-radius: var(--r-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            margin-top: 2.5rem;
+        }
+        .stage {
+            background: var(--white);
+            padding: 1.75rem 1.25rem;
+            position: relative;
+            transition: background .2s;
+        }
+        .stage:hover {
+            background: var(--navy-50);
+        }
+        .stage-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+        .stage-num {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: .62rem;
+            color: var(--light);
+            letter-spacing: .2em;
+            margin-bottom: .6rem;
+            display: block;
+        }
+        .stage-icon {
+            font-size: 1.5rem;
+            margin-bottom: .7rem;
+            display: block;
+        }
+        .stage-name {
+            font-weight: 700;
+            font-size: .95rem;
+            color: var(--navy-900);
+            margin-bottom: .2rem;
+        }
+        .stage-role {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: .62rem;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            margin-bottom: .85rem;
+            display: block;
+        }
+        .stage-bullets {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: .45rem;
+        }
+        .stage-bullets li {
+            font-size: .78rem;
+            color: var(--muted);
+            line-height: 1.45;
+            display: flex;
+            gap: .4rem;
+        }
+        .stage-bullets li::before {
+            content: "·";
+            color: var(--gold);
+            flex-shrink: 0;
+            font-size: 1rem;
+            line-height: 1.2;
+        }
+
+        .key-diff {
+            margin-top: 2rem;
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+            background: linear-gradient(135deg, var(--navy-700), var(--navy-600));
+            border-radius: var(--r-md);
+            padding: 1.5rem 1.75rem;
+        }
+        .key-diff-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        .key-diff-title {
+            font-weight: 700;
+            color: #fff;
+            font-size: .97rem;
+            margin-bottom: .35rem;
+        }
+        .key-diff-text {
+            font-size: .88rem;
+            color: rgba(255, 255, 255, .72);
+            line-height: 1.6;
+        }
+
+        /* ── MODULES ──────────────────────────────────────────────────────── */
+        .modules {
+            background: var(--page);
+        }
+        .mod-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.25rem;
+            margin-top: 2.5rem;
+        }
+        .mod-card {
+            background: var(--white);
+            border: 1px solid var(--border-lt);
+            border-radius: var(--r-md);
+            padding: 1.75rem 1.5rem;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            transition: box-shadow .2s, transform .2s;
+        }
+        .mod-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+        .mod-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3.5px;
+            border-radius: 3.5px 3.5px 0 0;
+        }
+        .mod-icon-bg {
+            width: 42px;
+            height: 42px;
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.15rem;
+            margin-bottom: 1.1rem;
+        }
+        .mod-name {
+            font-weight: 700;
+            color: var(--navy-900);
+            font-size: 1rem;
+            margin-bottom: .28rem;
+        }
+        .mod-tag {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: .64rem;
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            margin-bottom: .8rem;
+            display: block;
+        }
+        .mod-desc {
+            font-size: .85rem;
+            color: var(--muted);
+            line-height: 1.65;
+            margin-bottom: 1rem;
+        }
+        .mod-feats {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: .42rem;
+        }
+        .mod-feats li {
+            font-size: .79rem;
+            color: var(--muted);
+            display: flex;
+            gap: .45rem;
+            line-height: 1.45;
+        }
+        .mod-feats li::before {
+            content: "—";
+            flex-shrink: 0;
+        }
+
+        /* ── GUARDRAILS ───────────────────────────────────────────────────── */
+        .guardrails {
+            background: linear-gradient(135deg, var(--navy-700) 0%, var(--navy-600) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .gr-grid-bg {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, .04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, .04) 1px, transparent 1px);
+            background-size: 46px 46px;
+            pointer-events: none;
+        }
+        .gr-inner {
+            position: relative;
+        }
+        .guardrails .eyebrow {
+            color: var(--gold);
+        }
+        .guardrails .h2 {
+            color: #fff;
+        }
+        .guardrails .sub {
+            color: rgba(255, 255, 255, .65);
+        }
+        .gr-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: rgba(255, 255, 255, .1);
+            border-radius: var(--r-lg);
+            overflow: hidden;
+            margin-top: 2.5rem;
+        }
+        .gr-cell {
+            background: rgba(255, 255, 255, .06);
+            padding: 1.75rem 1.5rem;
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
+        }
+        .gr-cell-icon {
+            font-size: 1.4rem;
+            margin-bottom: .75rem;
+            display: block;
+        }
+        .gr-cell-title {
+            font-weight: 700;
+            color: #fff;
+            font-size: .93rem;
+            margin-bottom: .35rem;
+        }
+        .gr-cell-desc {
+            font-size: .82rem;
+            color: rgba(255, 255, 255, .6);
+            line-height: 1.6;
+        }
+
+        /* ── ASK ME ───────────────────────────────────────────────────────── */
+        .askme {
+            background: var(--page2);
+        }
+        .askme-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+        }
+        .askme-demo {
+            background: var(--white);
+            border-radius: var(--r-lg);
+            padding: 1.75rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-lt);
+        }
+        .askme-bar {
+            display: flex;
+            align-items: center;
+            gap: .45rem;
+            margin-bottom: 1.4rem;
+            padding-bottom: .9rem;
+            border-bottom: 1px solid var(--border-lt);
+        }
+        .askme-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+        }
+        .askme-bar-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: .66rem;
+            letter-spacing: .18em;
+            color: var(--light);
+            text-transform: uppercase;
+            margin-left: .4rem;
+        }
+        .askme-q {
+            font-family: 'DM Serif Display', Georgia, serif;
+            font-size: .97rem;
+            color: var(--navy-900);
+            font-style: italic;
+            margin-bottom: 1.1rem;
+            line-height: 1.55;
+        }
+        .askme-al {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: .62rem;
+            letter-spacing: .25em;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin-bottom: .55rem;
+        }
+        .askme-block {
+            background: var(--navy-50);
+            border-radius: var(--r);
+            padding: .9rem 1rem;
+            border: 1px solid var(--navy-100);
+        }
+        .askme-row {
+            display: flex;
+            gap: .55rem;
+            align-items: flex-start;
+            font-size: .83rem;
+            color: var(--navy-800);
+            line-height: 1.5;
+            padding: .3rem 0;
+            border-bottom: 1px solid var(--border-lt);
+        }
+        .askme-row:last-child {
+            border-bottom: none;
+        }
+        .askme-row-icon {
+            color: var(--gold);
+            flex-shrink: 0;
+            font-size: .85rem;
+        }
+        .askme-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .6rem;
+            margin-top: 1.75rem;
+        }
+        .askme-chip {
+            background: var(--navy-100);
+            border: 1px solid var(--navy-100);
+            color: var(--navy-800);
+            font-size: .78rem;
+            font-weight: 500;
+            padding: .38rem .85rem;
+            border-radius: 999px;
+        }
+        .askme-src {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: .6rem;
+            color: var(--light);
+            margin-top: .75rem;
+            display: flex;
+            align-items: center;
+            gap: .35rem;
+        }
+
+        /* ── SOCIAL PROOF (TESTIMONIALS) ────────────────────────────────── */
+        .social-proof {
+            background: var(--white);
+            padding: 3.5rem 5vw;
+            border-top: 1px solid var(--border-lt);
+            border-bottom: 1px solid var(--border-lt);
+        }
+        .sp-inner {
+            max-width: 1180px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 2rem;
+            align-items: stretch;
+        }
+        .sp-item {
+            background: var(--page);
+            border-radius: var(--r-md);
+            padding: 1.75rem 1.5rem;
+            border: 1px solid var(--border-lt);
+            display: flex;
+            flex-direction: column;
+        }
+        .sp-quote {
+            font-size: .92rem;
+            color: var(--text);
+            line-height: 1.7;
+            font-style: italic;
+            margin-bottom: 1rem;
+            flex: 1;
+        }
+        .sp-author {
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+        }
+        .sp-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gold-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: .85rem;
+            color: var(--gold);
+            flex-shrink: 0;
+        }
+        .sp-name {
+            font-weight: 700;
+            font-size: .85rem;
+            color: var(--navy-900);
+        }
+        .sp-title {
+            font-size: .7rem;
+            color: var(--muted);
+        }
+
+        /* ── ICP ──────────────────────────────────────────────────────────── */
+        .icp {
+            background: var(--white);
+        }
+        .icp-tabs {
+            display: flex;
+            gap: .45rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.75rem;
+        }
+        .icp-tab {
+            font-size: .8rem;
+            font-weight: 600;
+            padding: .5rem 1rem;
+            border-radius: 999px;
+            border: 1.5px solid var(--border);
+            color: var(--muted);
+            transition: all .18s;
+            cursor: pointer;
+            background: transparent;
+        }
+        .icp-tab:hover {
+            border-color: var(--navy-100);
+            color: var(--navy-800);
+        }
+        .icp-tab.active {
+            background: var(--navy-800);
+            color: #fff;
+            border-color: var(--navy-800);
+        }
+        .icp-tab:focus-visible {
+            outline-offset: 2px;
+        }
+        .icp-panel {
+            display: none;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+        .icp-panel.active {
+            display: grid;
+        }
+        .icp-pain {
+            background: var(--page);
+            border-radius: var(--r-md);
+            padding: 1.6rem;
+            border: 1px solid var(--border-lt);
+        }
+        .icp-lbl {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: .62rem;
+            letter-spacing: .25em;
+            text-transform: uppercase;
+            color: var(--light);
+            margin-bottom: .7rem;
+            display: block;
+        }
+        .icp-lbl-gold {
+            color: var(--gold);
+        }
+        .icp-pain-text {
+            font-family: 'DM Serif Display', Georgia, serif;
+            font-size: 1.02rem;
+            color: var(--navy-900);
+            font-style: italic;
+            line-height: 1.65;
+        }
+        .icp-val-text {
+            font-size: .93rem;
+            color: var(--muted);
+            line-height: 1.75;
+        }
+        .icp-mods {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .45rem;
+            margin-top: 1.1rem;
+        }
+        .icp-mod {
+            font-size: .72rem;
+            font-weight: 600;
+            padding: .28rem .7rem;
+            border-radius: 999px;
+            background: var(--navy-100);
+            color: var(--navy-800);
+        }
+
+        /* ── CTA ──────────────────────────────────────────────────────────── */
+        .cta-section {
+            background: linear-gradient(135deg, var(--navy-700) 0%, var(--navy-600) 100%);
+            text-align: center;
+            padding: 6.5rem 5vw;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-bg {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, .04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, .04) 1px, transparent 1px);
+            background-size: 46px 46px;
+            pointer-events: none;
+        }
+        .cta-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 700px;
+            height: 700px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(200, 154, 43, .1) 0%, transparent 65%);
+            pointer-events: none;
+        }
+        .cta-section .eyebrow {
+            color: var(--gold);
+        }
+        .cta-section .h2 {
+            color: #fff;
+            max-width: 780px;
+            margin: 0 auto .9rem;
+            font-size: clamp(2rem, 4vw, 3.8rem);
+        }
+        .cta-section .h2 em {
+            font-style: italic;
+            background: linear-gradient(135deg, var(--gold), #f5c84a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: #f5c84a;
+        }
+        .cta-sub-txt {
+            font-size: 1.05rem;
+            color: rgba(255, 255, 255, .62);
+            max-width: 540px;
+            margin: 0 auto 2.8rem;
+            line-height: 1.78;
+        }
+        .cta-btns {
+            display: flex;
+            justify-content: center;
+            gap: .9rem;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+        .btn-gold {
+            background: linear-gradient(135deg, var(--gold), #c08018);
+            color: var(--navy-900);
+            font-size: 1rem;
+            font-weight: 800;
+            padding: 1rem 2.3rem;
+            border-radius: var(--r-md);
+            display: inline-flex;
+            align-items: center;
+            gap: .55rem;
+            box-shadow: 0 8px 28px rgba(200, 154, 43, .35);
+            transition: box-shadow .2s, transform .18s;
+            letter-spacing: .02em;
+        }
+        .btn-gold:hover {
+            box-shadow: 0 14px 40px rgba(200, 154, 43, .45);
+            transform: translateY(-1px);
+        }
+        .btn-ghost {
+            background: rgba(255, 255, 255, .08);
+            color: #fff;
+            border: 1.5px solid rgba(255, 255, 255, .25);
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 1rem 2rem;
+            border-radius: var(--r-md);
+            transition: background .18s;
+        }
+        .btn-ghost:hover {
+            background: rgba(255, 255, 255, .14);
+        }
+        .cta-journey {
+            display: flex;
+            max-width: 680px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, .07);
+            border-radius: var(--r-md);
+            overflow: hidden;
+        }
+        .cta-step {
+            flex: 1;
+            padding: 1.3rem 1.1rem;
+            border-right: 1px solid rgba(255, 255, 255, .08);
+            text-align: left;
+        }
+        .cta-step:last-child {
+            border-right: none;
+        }
+        .cta-time {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: .72rem;
+            color: var(--gold);
+            letter-spacing: .1em;
+            margin-bottom: .4rem;
+            display: block;
+        }
+        .cta-desc {
+            font-size: .8rem;
+            color: rgba(255, 255, 255, .55);
+            line-height: 1.5;
+        }
+
+        /* ── FOOTER ───────────────────────────────────────────────────────── */
+        .footer {
+            background: var(--navy-900);
+            padding: 3rem 5vw 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.75rem;
+        }
+        .footer-brand {
+            text-align: center;
+        }
+        .footer-brand .name {
+            font-family: 'DM Serif Display', Georgia, serif;
+            letter-spacing: .24em;
+            font-size: 1.25rem;
+            color: #fff;
+        }
+        .footer-brand .name .gold-letter {
+            color: var(--gold);
+        }
+        .footer-brand .tag {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: .58rem;
+            letter-spacing: .38em;
+            color: rgba(200, 154, 43, .65);
+            text-transform: uppercase;
+            display: block;
+            margin-top: .2rem;
+        }
+        .footer-links {
+            display: flex;
+            gap: 1.75rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .footer-links a {
+            font-size: .83rem;
+            color: rgba(255, 255, 255, .4);
+            transition: color .18s;
+        }
+        .footer-links a:hover {
+            color: rgba(255, 255, 255, .78);
+        }
+        .footer-compliance {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .footer-compliance span {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: .58rem;
+            letter-spacing: .12em;
+            color: rgba(255, 255, 255, .2);
+            text-transform: uppercase;
+        }
+        .footer-copy {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: .6rem;
+            letter-spacing: .14em;
+            color: rgba(255, 255, 255, .2);
+            text-align: center;
+        }
+
+        /* ── RESPONSIVE ───────────────────────────────────────────────────── */
+        @media(max-width:1080px) {
+            .hero-layout {
+                grid-template-columns: 1fr;
+            }
+            .lifecycle-visual,
+            .lv-top {
+                display: grid;
+            }
+            .lifecycle-visual {
+                margin-top: 2rem;
+            }
+            .lv-top {
+                grid-template-columns: 1fr 1fr;
+            }
+            .mod-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .lifecycle-stages {
+                grid-template-columns: 1fr 1fr;
+            }
+            .sp-inner {
+                grid-template-columns: 1fr 1fr;
+            }
+            .social-proof {
+                padding: 2.5rem 5vw;
+            }
+        }
+
+        @media(max-width:760px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(248, 250, 252, .98);
+                backdrop-filter: blur(16px);
+                -webkit-backdrop-filter: blur(16px);
+                flex-direction: column;
+                padding: 1.5rem 5vw;
+                gap: 1.25rem;
+                border-bottom: 1px solid var(--border-lt);
+            }
+            .nav-links.open {
+                display: flex;
+            }
+            .nav-toggle {
+                display: flex;
+            }
+            .nav-btns .btn-nav-in {
+                display: none;
+            }
+
+            .pos-grid,
+            .askme-layout,
+            .icp-panel.active {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .gr-grid {
+                grid-template-columns: 1fr;
+            }
+            .mod-grid,
+            .lifecycle-stages {
+                grid-template-columns: 1fr;
+            }
+            .w2w-bar {
+                flex-wrap: wrap;
+            }
+            .w2w-arrow {
+                display: none;
+            }
+            .cta-journey {
+                flex-direction: column;
+            }
+            .cta-step {
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 255, 255, .08);
+            }
+            .lv-top {
+                grid-template-columns: 1fr;
+            }
+            .hero-layout {
+                gap: 2rem;
+            }
+            .hero {
+                padding: 6rem 5vw 3rem;
+            }
+            .section {
+                padding: 3rem 5vw;
+            }
+            .sp-inner {
+                grid-template-columns: 1fr;
+            }
+            .sticky-cta {
+                bottom: 1rem;
+                right: 1rem;
+                padding: .7rem 1.2rem;
+                font-size: .8rem;
+            }
+            .lifecycle-svg-wrap {
+                padding: 0.75rem 0.75rem 0 0.75rem;
+            }
+        }
+
+        @media(max-width:480px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            .hero-badge {
+                font-size: .68rem;
+                padding: .3rem .7rem;
+            }
+            .btn-primary,
+            .btn-outline,
+            .btn-gold,
+            .btn-ghost {
+                font-size: .85rem;
+                padding: .75rem 1.5rem;
+            }
+            .stat-n {
+                font-size: 2.4rem;
+            }
+            .stat-cell {
+                padding: 1.5rem 1.25rem;
+            }
+            .logo-name {
+                font-size: 1rem;
+            }
+            .logo-sub {
+                font-size: .4rem;
+            }
+            .logo-icon {
+                width: 30px;
+                height: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SKIP LINK -->
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <!-- NAV -->
+    <nav class="nav" id="nav" aria-label="Main navigation">
+        <div class="logo-wrap">
+            <span class="logo-icon" aria-hidden="true">
+                <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="20" cy="20" r="18" stroke="#C89A2B" stroke-width="2.5"/>
+                    <circle cx="20" cy="20" r="8" fill="#C89A2B"/>
+                </svg>
+            </span>
+            <div class="logo-text">
+                <span class="logo-name">AMA<span class="gold-letter">O</span>RU</span>
+                <span class="logo-sub">Execution Intelligence</span>
+            </div>
+        </div>
+
+        <div class="nav-links" id="navLinks">
+            <a href="#lifecycle">Project Lifecycle</a>
+            <a href="#modules">Modules</a>
+            <a href="#guardrails">Guardrails</a>
+            <a href="#who">Who It's For</a>
+        </div>
+
+        <div class="nav-btns">
+            <a href="https://demo.amaoru.com/" class="btn-nav-in" target="_blank" aria-label="Sign in to the platform">Sign In →</a>
+            <a href="#cta" class="btn-nav-demo">Request Demo</a>
+            <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Toggle navigation">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- STICKY CTA -->
+    <a href="#cta" class="sticky-cta" id="stickyCta" aria-label="Book a demo">
+        Book a Demo <span class="arr" aria-hidden="true">→</span>
+    </a>
+
+    <!-- HERO -->
+    <section class="hero" id="main" aria-labelledby="hero-title">
+        <div class="hero-grid" aria-hidden="true"></div>
+        <div class="hero-glow" aria-hidden="true"></div>
+        <div class="hero-layout container">
+            <div>
+                <div class="hero-badge anim">
+                    <span class="hero-badge-dot" aria-hidden="true"></span>
+                    Enterprise Execution Intelligence &amp; Value Assurance
+                </div>
+                <h1 id="hero-title" class="anim" style="transition-delay:.06s">
+                    Intelligence built<br />into every stage of<br /><em>project execution.</em>
+                </h1>
+                <p class="hero-sub anim" style="transition-delay:.13s">
+                    Amaoru Platform embeds execution intelligence, value governance, and institutional learning directly into the project lifecycle — so every task, decision, and outcome becomes evidence your organisation can trust and reuse.
+                </p>
+                <div class="hero-ctas anim" style="transition-delay:.2s">
+                    <a href="#cta" class="btn-primary">Request a Demo <span class="arr" aria-hidden="true">→</span></a>
+                    <a href="https://demo.amaoru.com/" class="btn-outline" target="_blank">Explore Live Platform</a>
+                </div>
+                <div class="hero-proof anim" style="transition-delay:.28s">
+                    <div class="hero-proof-item"><span class="hero-proof-icon" aria-hidden="true">✓</span> Tenant-safe &amp; governed</div>
+                    <span class="hero-proof-sep" aria-hidden="true"></span>
+                    <div class="hero-proof-item"><span class="hero-proof-icon" aria-hidden="true">✓</span> Auditable &amp; evidence-based</div>
+                    <span class="hero-proof-sep" aria-hidden="true"></span>
+                    <div class="hero-proof-item"><span class="hero-proof-icon" aria-hidden="true">✓</span> Decision-ready insights</div>
+                </div>
+            </div>
+            <div class="lifecycle-visual" aria-hidden="true">
+                <div class="lv-top">
+                    <div class="lv-card">
+                        <div class="lv-icon" style="background:#fff0e6;color:#e07020" aria-hidden="true">⚠</div>
+                        <div>
+                            <div class="lv-kicker">Early Warning</div>
+                            <div class="lv-val">3 tasks at delay risk — Alpha Programme</div>
+                            <span class="lv-pill" style="background:#fff0e6;color:#b85c00">Action Required</span>
+                        </div>
+                    </div>
+                    <div class="lv-card">
+                        <div class="lv-icon" style="background:#e8f5ee;color:#1a7a3e" aria-hidden="true">📋</div>
+                        <div>
+                            <div class="lv-kicker">Execution Governance</div>
+                            <div class="lv-val">Baseline approved &amp; locked — Meridian ERP</div>
+                            <span class="lv-pill" style="background:#e8f5ee;color:#1a7a3e">Baseline Active</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="lv-card">
+                    <div class="lv-icon" style="background:#e8f4fc;color:#1a6b9a" aria-hidden="true">◈</div>
+                    <div>
+                        <div class="lv-kicker">LessonVault · Capture forced at closure</div>
+                        <div class="lv-val">Task cannot close until lesson captured &amp; impact validated — no silent bypass</div>
+                        <span class="lv-pill" style="background:#e8f4fc;color:#1a6b9a">Lesson Required</span>
+                    </div>
+                </div>
+                <div class="lv-top">
+                    <div class="lv-card">
+                        <div class="lv-icon" style="background:#f3eeff;color:#6a4bb0" aria-hidden="true">◎</div>
+                        <div>
+                            <div class="lv-kicker">Ask Me · Project Intelligence</div>
+                            <div class="lv-val">£42k commitment overdue — 3 days past due date</div>
+                            <span class="lv-pill" style="background:#fef2f2;color:#b91c1c">Overdue</span>
+                        </div>
+                    </div>
+                    <div class="lv-card">
+                        <div class="lv-icon" style="background:#e6f6f4;color:#1a8a7a" aria-hidden="true">◉</div>
+                        <div>
+                            <div class="lv-kicker">Portfolio Intelligence</div>
+                            <div class="lv-val">Budget performance 94% · 2 projects flagged</div>
+                            <span class="lv-pill" style="background:#fff3df;color:#7a5200">Under Review</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TRUST BAR -->
+    <div class="trust" aria-label="Target audience badges">
+        <div class="trust-inner">
+            <span class="trust-lbl">Built for</span>
+            <div class="trust-pills">
+                <span class="trust-pill">PMOs</span>
+                <span class="trust-pill">Transformation Offices</span>
+                <span class="trust-pill">Delivery Executives</span>
+                <span class="trust-pill">Finance &amp; Governance Teams</span>
+                <span class="trust-pill">Consulting Firms</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- PROBLEM -->
+    <section class="section problem" id="problem" aria-labelledby="problem-title">
+        <div class="container">
+            <div class="sec-hdr anim">
+                <span class="eyebrow">The Execution Reality</span>
+                <h2 id="problem-title" class="h2">Organisations run projects.<br /><span class="gold">They rarely learn from them.</span></h2>
+                <p class="sub">Delivery effort happens. Lessons go unrecorded. Value is assumed, not proven. Risk signals go unseen until they become failures. Amaoru Platform closes every one of those gaps.</p>
+            </div>
+            <div class="stats-grid anim">
+                <div class="stat-cell">
+                    <div class="stat-n"><span>73</span>%</div>
+                    <div class="stat-l">of organisations say lessons learned are rarely or never reused on future projects</div>
+                    <span class="stat-source">Source: PMI Pulse of the Profession 2025</span>
+                </div>
+                <div class="stat-cell">
+                    <div class="stat-n"><span>60</span>%</div>
+                    <div class="stat-l">of project failures involve issues that occurred on a previous delivery engagement</div>
+                    <span class="stat-source">Source: KPMG Project Management Survey 2024</span>
+                </div>
+                <div class="stat-cell">
+                    <div class="stat-n">&lt;<span>20</span>%</div>
+                    <div class="stat-l">of PMOs can trace project delivery effort to validated, auditable business value</div>
+                    <span class="stat-source">Source: PwC PMO Maturity Benchmark 2025</span>
+                </div>
+                <div class="stat-cell">
+                    <div class="stat-n" style="font-size:2.5rem">No guard&shy;rails</div>
+                    <div class="stat-l">Most platforms let tasks close silently — no lesson, no evidence, no value proof required</div>
+                </div>
+            </div>
+            <div class="pull-quote anim">
+                <p>"The failure mode is not that teams don't do the work. It is that the work disappears — no governed lessons, no validated value, no execution intelligence passed forward to the next project."</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- POSITIONING / WORK TO WISDOM CHAIN -->
+    <section class="section positioning" id="positioning" aria-labelledby="pos-title">
+        <div class="container">
+            <div class="sec-hdr anim">
+                <span class="eyebrow">Platform Positioning</span>
+                <h2 id="pos-title" class="h2">Not a project tracker.<br /><span class="gold">An execution intelligence layer.</span></h2>
+            </div>
+            <div class="pos-grid">
+                <div>
+                    <p class="sub" style="margin-bottom:1.75rem">Amaoru Platform sits above your existing execution tools. It does not replace your task management — it governs what happens to the intelligence your delivery generates. Every project phase feeds the next.</p>
+                    <div class="pos-chain anim">
+                        <div class="pos-step">
+                            <span class="pos-step-num">01</span>
+                            <span class="pos-step-icon" aria-hidden="true">📋</span>
+                            <div><div class="pos-step-title">Work is executed &amp; governed</div><div class="pos-step-desc">Tasks, milestones, spend, and commitments tracked with baseline-aware schedule control</div></div>
+                        </div>
+                        <div class="pos-step">
+                            <span class="pos-step-num">02</span>
+                            <span class="pos-step-icon" aria-hidden="true">⚠️</span>
+                            <div><div class="pos-step-title">Risk is detected before it lands</div><div class="pos-step-desc">Calendar-aware Early Warnings surface delays, workload pressure, and blind spots in real time</div></div>
+                        </div>
+                        <div class="pos-step">
+                            <span class="pos-step-num">03</span>
+                            <span class="pos-step-icon" aria-hidden="true">📖</span>
+                            <div><div class="pos-step-title">Lessons are captured and validated</div><div class="pos-step-desc">Tasks cannot close without lesson capture — no silent bypass. Supervisor-validated before reuse</div></div>
+                        </div>
+                        <div class="pos-step">
+                            <span class="pos-step-num">04</span>
+                            <span class="pos-step-icon" aria-hidden="true">💷</span>
+                            <div><div class="pos-step-title">Value is proven, not assumed</div><div class="pos-step-desc">Impact Ledger creates an audit-backed evidence chain from delivery effort to business outcome</div></div>
+                        </div>
+                        <div class="pos-step">
+                            <span class="pos-step-num">05</span>
+                            <span class="pos-step-icon" aria-hidden="true">🤖</span>
+                            <div><div class="pos-step-title">Intelligence feeds the next project</div><div class="pos-step-desc">Ask Me routes validated lessons, evidence, and signals back as AI-guided execution decisions</div></div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="anim" style="margin-bottom:1.5rem">
+                        <span class="eyebrow eyebrow-teal" style="margin-bottom:.5rem">From Work to Wisdom to Value to Intelligence</span>
+                        <p style="font-size:.88rem;color:var(--muted);line-height:1.65">The Amaoru value chain — every project feeds the next.</p>
+                    </div>
+                    <div class="w2w anim">
+                        <div class="w2w-bar">
+                            <div class="w2w-cell">
+                                <span class="w2w-icon" aria-hidden="true">📋</span>
+                                <span class="w2w-label">Work / Task</span>
+                                <span class="w2w-sub">Planned and Executed</span>
+                            </div>
+                            <div class="w2w-arrow" aria-hidden="true">›</div>
+                            <div class="w2w-cell">
+                                <span class="w2w-icon" aria-hidden="true">📖</span>
+                                <span class="w2w-label">Lesson</span>
+                                <span class="w2w-sub">Captured and Validated</span>
+                            </div>
+                            <div class="w2w-arrow" aria-hidden="true">›</div>
+                            <div class="w2w-cell">
+                                <span class="w2w-icon" aria-hidden="true">✅</span>
+                                <span class="w2w-label">Impact</span>
+                                <span class="w2w-sub">Validated with Evidence</span>
+                            </div>
+                            <div class="w2w-arrow" aria-hidden="true">›</div>
+                            <div class="w2w-cell">
+                                <span class="w2w-icon" aria-hidden="true">💷</span>
+                                <span class="w2w-label">Value</span>
+                                <span class="w2w-sub">Measured and Proven</span>
+                            </div>
+                            <div class="w2w-arrow" aria-hidden="true">›</div>
+                            <div class="w2w-cell">
+                                <span class="w2w-icon" aria-hidden="true">📊</span>
+                                <span class="w2w-label">Intelligence</span>
+                                <span class="w2w-sub">Insights for Better Decisions</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:2.5rem" class="anim">
+                        <span class="eyebrow eyebrow-teal" style="margin-bottom:.75rem">What makes Amaoru different</span>
+                        <div style="display:grid;gap:.65rem">
+                            <div style="display:flex;gap:.75rem;align-items:flex-start;background:var(--white);padding:1rem 1.1rem;border-radius:var(--r);border:1px solid var(--border-lt)">
+                                <span style="color:var(--teal);font-size:1.1rem;flex-shrink:0" aria-hidden="true">🎯</span>
+                                <div style="font-size:.85rem;color:var(--muted);line-height:1.55"><strong style="color:var(--navy-900)">Tenant-safe &amp; governed.</strong> Isolation enforced at every query, service, and route layer.</div>
+                            </div>
+                            <div style="display:flex;gap:.75rem;align-items:flex-start;background:var(--white);padding:1rem 1.1rem;border-radius:var(--r);border:1px solid var(--border-lt)">
+                                <span style="color:var(--gold);font-size:1.1rem;flex-shrink:0" aria-hidden="true">🔒</span>
+                                <div style="font-size:.85rem;color:var(--muted);line-height:1.55"><strong style="color:var(--navy-900)">No silent bypass.</strong> Tasks do not fully close until lesson capture and validated impact are recorded.</div>
+                            </div>
+                            <div style="display:flex;gap:.75rem;align-items:flex-start;background:var(--white);padding:1rem 1.1rem;border-radius:var(--r);border:1px solid var(--border-lt)">
+                                <span style="color:var(--purple);font-size:1.1rem;flex-shrink:0" aria-hidden="true">🤖</span>
+                                <div style="font-size:.85rem;color:var(--muted);line-height:1.55"><strong style="color:var(--navy-900)">No AI overrides.</strong> AI cannot baseline, validate, approve, close, delete, or invent figures — ever.</div>
+                            </div>
+                            <div style="display:flex;gap:.75rem;align-items:flex-start;background:var(--white);padding:1rem 1.1rem;border-radius:var(--r);border:1px solid var(--border-lt)">
+                                <span style="color:var(--green);font-size:1.1rem;flex-shrink:0" aria-hidden="true">📊</span>
+                                <div style="font-size:.85rem;color:var(--muted);line-height:1.55"><strong style="color:var(--navy-900)">Data integrity first.</strong> No invented figures, no overrides — approved baselines are the immutable source.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LIFECYCLE with SVG diagram -->
+    <section class="section lifecycle" id="lifecycle" aria-labelledby="lifecycle-title">
+        <div class="container">
+            <div class="sec-hdr anim">
+                <span class="eyebrow">Where Amaoru Fits in the Project Lifecycle</span>
+                <h2 id="lifecycle-title" class="h2">Intelligence at every phase.<br /><span class="gold">Governance at every gate.</span></h2>
+                <p class="sub">Amaoru does not bolt onto the end of delivery. It runs inside every phase — from initiation through closure — and ensures institutional learning feeds the next project automatically.</p>
+            </div>
+
+            <!-- SVG LIFECYCLE DIAGRAM (image 2) -->
+            <div class="lifecycle-svg-wrap anim">
+                <svg viewBox="0 0 1120 380" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Amaoru project lifecycle diagram showing five phases: Initiation, Planning & Baseline, Execution, Monitoring & Control, Closure & Learning">
+                    <defs>
+                        <linearGradient id="lg1" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#1a8a7a"/><stop offset="100%" stop-color="#22a090"/></linearGradient>
+                        <linearGradient id="lg2" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#061B3A"/><stop offset="100%" stop-color="#002b60"/></linearGradient>
+                        <linearGradient id="lg3" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#1a6b9a"/><stop offset="100%" stop-color="#2080b8"/></linearGradient>
+                        <linearGradient id="lg4" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#e07020"/><stop offset="100%" stop-color="#d97706"/></linearGradient>
+                        <linearGradient id="lg5" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#C89A2B"/><stop offset="100%" stop-color="#b07000"/></linearGradient>
+                    </defs>
+
+                    <!-- Title -->
+                    <text x="560" y="28" font-family="'DM Serif Display', Georgia, serif" font-size="20" fill="#061B3A" text-anchor="middle" font-style="italic" letter-spacing="0.5">Institutional learning feeds the next project</text>
+
+                    <!-- Arrow connectors between phases -->
+                    <g stroke="#C89A2B" stroke-width="2" opacity="0.6">
+                        <line x1="188" y1="80" x2="235" y2="80"/>
+                        <line x1="388" y1="80" x2="435" y2="80"/>
+                        <line x1="588" y1="80" x2="635" y2="80"/>
+                        <line x1="788" y1="80" x2="835" y2="80"/>
+                        <!-- curved return arrow from phase 5 back to phase 1 -->
+                        <path d="M980 80 Q1050 80 1050 140 Q1050 200 980 200 Q910 200 910 140 Q910 80 980 80" stroke-dasharray="4 4" fill="none"/>
+                        <polygon points="980,72 988,80 980,88" fill="#C89A2B" opacity="0.6"/>
+                    </g>
+
+                    <!-- Phase 1: Initiation -->
+                    <g>
+                        <rect x="10" y="50" width="178" height="200" rx="14" fill="white" stroke="url(#lg1)" stroke-width="2.5"/>
+                        <rect x="10" y="50" width="178" height="28" rx="14" fill="url(#lg1)"/>
+                        <rect x="10" y="64" width="178" height="14" fill="url(#lg1)"/>
+                        <text x="99" y="69" font-family="'IBM Plex Mono', monospace" font-size="9" fill="white" text-anchor="middle" letter-spacing="1.5">PHASE 01</text>
+                        <text x="99" y="98" font-family="'DM Serif Display', Georgia, serif" font-size="16" fill="#061B3A" text-anchor="middle" font-weight="400">Initiation</text>
+                        <text x="99" y="118" font-family="'IBM Plex Mono', monospace" font-size="8" fill="#C89A2B" text-anchor="middle" letter-spacing="0.8" text-transform="uppercase">Institutional Learning</text>
+                        <circle cx="99" cy="140" r="16" fill="#e6f6f4" stroke="#1a8a7a" stroke-width="1.2"/>
+                        <text x="99" y="145" font-size="14" text-anchor="middle">📚</text>
+                        <text x="99" y="172" font-family="'DM Sans', sans-serif" font-size="9" fill="#667086" text-anchor="middle">Search existing lessons</text>
+                        <text x="99" y="188" font-family="'DM Sans', sans-serif" font-size="9" fill="#667086" text-anchor="middle">Reuse proven solutions</text>
+                        <text x="99" y="204" font-family="'DM Sans', sans-serif" font-size="9" fill="#667086" text-anchor="middle">Avoid repeat mistakes</text>
+                    </g>
+
+                    <!-- Phase 2: Planning & Baseline -->
+                    <g>
+                        <rect x="210" y="50" width="178" height="200" rx="14" fill="white" stroke="url(#lg2)" stroke-width="2.5"/>
+                        <rect x="210" y="50" width="178" height="28" rx="14" fill="url(#lg2)"/>
+                        <rect x="210" y="64" width="178" height="14" fill="url(#lg2)"/>
+                        <text x="299" y="69" font-family="'IBM Plex Mono', monospace" font-size="9" fill="white" text-anchor="middle" letter-spacing="1.5">PHASE 02</text>
+                        <text x="299" y="98" font-family="'DM Serif Display', Georgia, serif" font-size="15" fill="#061B3A" text-anchor="middle" font-weight="400">Planning &amp;</text>
+                        <text x="299" y="116" font-family="'DM Serif Display', Georgia, serif" font-size="15" fill="#061B3A" text-anchor="middle" font-weight="400">Baseline</text>
+                        <text x="299" y="138" font-family="'IBM Plex Mono', monospace" font-size="8" fill="#C89A2B" text-anchor="middle" letter-spacing="0.8" text-transform="uppercase">Execution Governance</text>
+                        <circle cx="299" cy="156" r="16" fill="#eef2f8" stroke="#061B3A" stroke-width="1.2"/>
+                        <text x="299" y="161" font-size="14" text-anchor="middle">📐</text>
+                        <text x="299" y="184" font-family="'DM Sans', sans-serif" font-size="9" fill="#667086" text-anchor="middle">Import plan &amp; structure</text>
+                        <text x="299" y="199" font-family="'DM Sans', sans-serif" font-size="9" fill="#667086" text-anchor="middle">All-or-nothing validation</text>
+                        <text x="299" y="214" font-family="'DM Sans', sans-serif" font-size="9" fill="#667086" text-anchor="middle">Set baseline (schedule, cost)</text>
+                        <text x="299" y="229" font-family="'DM Sans', sans-serif" font-size="9" fill="#667086" text-anchor="middle">Assign owners &amp; permissions</text>
+                    </g>
+
+                    <!-- Phase 3: Execution -->
+                    <g>
+                        <rect x="410" y="50" width="178" height="200" rx="14" fill="white" stroke="url(#lg3)" stroke-width="2.5"/>
+                        <rect x="410" y="50" width="178" height="28" rx="14" fill="url(#lg3)"/>
+                        <rect x="410" y="64" width="178" height="14" fill="url(#lg3)"/>
+                        <text x="499" y="69" font-family="'IBM Plex Mono', monospace" font-size="9" fill="white" text-anchor="middle" letter-spacing="1.5">PHASE 03</text>
+                        <text x="499" y="98" font-family="'DM Serif Display', Georgia, serif" font-size="16" fill="#061B3A" text-anchor="middle" font-weight="400">Execution</text>
+                        <text x="499" y="118" font-family="'IBM Plex Mono', monospace" font-size="8" fill="#C89A2B" text-anchor="middle" letter-spacing="0.8" text-transform="uppercase">Deliver &amp; Capture</text>
+                        <circle cx="499" cy="140" r="16" fill="#e8f4fc" stroke="#1a6b9a" stroke-width="1.2"/>
+                        <text x="499" y="145" font-size="14" text-anchor="middle">⚙️</text>
+                        <text x="499" y="172" font-family="'DM Sans', sans-serif" font-size="9" fill="#667086" text-anchor="middle">Execute tasks &amp; milestones</text>
+                        <text x="499" y="187" font-family="'DM Sans', sans-serif" font-size="9" fill="#667086" text-anchor="middle">Track progress &amp; dependencies</text>
+                        <text x="499" y="202" font-family="'DM Sans', sans-serif" font-size="9" fill="#667086" text-anchor="middle">Capture spend, commitments</text>
+                        <text x="499" y="217" font-family="'DM Sans', sans-serif" font-size="9" fill="#667086" text-anchor="middle">Capture evidence continuously</text>
+                    </g>
+
+                    <!-- Phase 4: Monitoring & Control -->
+                    <g>
+                        <rect x="610" y="50" width="178" height="200" rx="14" fill="white" stroke="url(#lg4)" stroke-width="2.5"/>
+                        <rect x="610" y="50" width="178" height="28" rx="14" fill="url(#lg4)"/>
+                        <rect x="610" y="64" width="178" height="14" fill="url(#lg4)"/>
+                        <text x="699" y="69" font-family="'IBM Plex Mono', monospace" font-size="9" fill="white" text-anchor="middle" letter-spacing="1.5">PHASE 04</text>
+                        <text x="699" y="98" font-family="'DM Serif Display', Georgia, serif" font-size="14" fill="#061B3A" text-anchor="middle" font-weight="400">Monitoring &amp;</text>
+                        <text x="699" y="116" font-family="'DM Serif Display', Georgia, serif" font-size="14" fill="#061B3A" text-anchor="middle" font-weight="400">Control</text>
+                        <text x="699" y="138" font-family="'IBM Plex Mono', monospace" font-size="8" fill="#C89A2B" text-anchor="middle" letter-spacing="0.8" text-transform="uppercase">Early Warnings</text>
+                        <circle cx="699" cy="156" r="16" fill="#fff0e6" stroke="#e07020" stroke-width="1.2"/>
+                        <text x="699" y="161" font-size="14" text-anchor="middle">📡</text>
+                        <text x="699" y="184" font-family="'DM Sans', sans-serif" font-size="9" fill="#667086" text-anchor="middle">Detect risks, delays, rework</text>
+                        <text x="699" y="199" font-family="'DM Sans', sans-serif" font-size="9" fill="#667086" text-anchor="middle">Workload &amp; resource pressure</text>
+                        <text x="699" y="214" font-family="'DM Sans', sans-serif" font-size="9" fill="#667086" text-anchor="middle">Dependency &amp; fragility signals</text>
+                        <text x="699" y="229" font-family="'DM Sans', sans-serif" font-size="9" fill="#667086" text-anchor="middle">Calendar-aware delay engine</text>
+                    </g>
+
+                    <!-- Phase 5: Closure & Learning -->
+                    <g>
+                        <rect x="810" y="50" width="178" height="200" rx="14" fill="white" stroke="url(#lg5)" stroke-width="2.5"/>
+                        <rect x="810" y="50" width="178" height="28" rx="14" fill="url(#lg5)"/>
+                        <rect x="810" y="64" width="178" height="14" fill="url(#lg5)"/>
+                        <text x="899" y="69" font-family="'IBM Plex Mono', monospace" font-size="9" fill="white" text-anchor="middle" letter-spacing="1.5">PHASE 05</text>
+                        <text x="899" y="98" font-family="'DM Serif Display', Georgia, serif" font-size="15" fill="#061B3A" text-anchor="middle" font-weight="400">Closure &amp;</text>
+                        <text x="899" y="116" font-family="'DM Serif Display', Georgia, serif" font-size="15" fill="#061B3A" text-anchor="middle" font-weight="400">Learning</text>
+                        <text x="899" y="138" font-family="'IBM Plex Mono', monospace" font-size="8" fill="#C89A2B" text-anchor="middle" letter-spacing="0.8" text-transform="uppercase">Prove &amp; Improve</text>
+                        <circle cx="899" cy="156" r="16" fill="#fff3df" stroke="#C89A2B" stroke-width="1.2"/>
+                        <text x="899" y="161" font-size="14" text-anchor="middle">🎯</text>
+                        <text x="899" y="184" font-family="'DM Sans', sans-serif" font-size="9" fill="#667086" text-anchor="middle">Capture lessons (forced)</text>
+                        <text x="899" y="199" font-family="'DM Sans', sans-serif" font-size="9" fill="#667086" text-anchor="middle">Validate impact (supervisor)</text>
+                        <text x="899" y="214" font-family="'DM Sans', sans-serif" font-size="9" fill="#667086" text-anchor="middle">Prove value delivered</text>
+                        <text x="899" y="229" font-family="'DM Sans', sans-serif" font-size="9" fill="#667086" text-anchor="middle">Update patterns &amp; library</text>
+                    </g>
+
+                    <!-- Bottom tagline -->
+                    <text x="560" y="360" font-family="'DM Sans', sans-serif" font-size="12" fill="#8b96a8" text-anchor="middle" font-weight="400">Tenant-safe &amp; governed · Auditable &amp; evidence-based · Decision-ready insights</text>
+                </svg>
+            </div>
+
+            <!-- Stage cards (kept for additional detail) -->
+            <div class="lifecycle-stages anim" style="margin-top:2rem">
+                <div class="stage">
+                    <div class="stage-top" style="background:linear-gradient(90deg,#1a8a7a,#22a090)" aria-hidden="true"></div>
+                    <span class="stage-num">PHASE 01</span>
+                    <span class="stage-icon" aria-hidden="true">📚</span>
+                    <div class="stage-name">Initiation</div>
+                    <span class="stage-role">Institutional Learning</span>
+                    <ul class="stage-bullets">
+                        <li>Search existing lessons</li>
+                        <li>Reuse proven solutions</li>
+                        <li>Avoid repeat mistakes</li>
+                    </ul>
+                </div>
+                <div class="stage">
+                    <div class="stage-top" style="background:linear-gradient(90deg,#061B3A,#002b60)" aria-hidden="true"></div>
+                    <span class="stage-num">PHASE 02</span>
+                    <span class="stage-icon" aria-hidden="true">📐</span>
+                    <div class="stage-name">Planning &amp; Baseline</div>
+                    <span class="stage-role">Execution Governance</span>
+                    <ul class="stage-bullets">
+                        <li>Import plan &amp; structure review</li>
+                        <li>All-or-nothing validation</li>
+                        <li>Set baseline (schedule, cost, spend)</li>
+                        <li>Assign owners &amp; permissions</li>
+                    </ul>
+                </div>
+                <div class="stage">
+                    <div class="stage-top" style="background:linear-gradient(90deg,#1a6b9a,#2080b8)" aria-hidden="true"></div>
+                    <span class="stage-num">PHASE 03</span>
+                    <span class="stage-icon" aria-hidden="true">⚙️</span>
+                    <div class="stage-name">Execution</div>
+                    <span class="stage-role">Deliver &amp; Capture</span>
+                    <ul class="stage-bullets">
+                        <li>Execute tasks &amp; milestones</li>
+                        <li>Track progress &amp; dependencies</li>
+                        <li>Capture spend, commitments &amp; payments</li>
+                        <li>Capture evidence continuously</li>
+                    </ul>
+                </div>
+                <div class="stage">
+                    <div class="stage-top" style="background:linear-gradient(90deg,#e07020,#d97706)" aria-hidden="true"></div>
+                    <span class="stage-num">PHASE 04</span>
+                    <span class="stage-icon" aria-hidden="true">📡</span>
+                    <div class="stage-name">Monitoring &amp; Control</div>
+                    <span class="stage-role">Early Warnings</span>
+                    <ul class="stage-bullets">
+                        <li>Detect risks, delays, rework</li>
+                        <li>Workload &amp; resource pressure</li>
+                        <li>Dependency &amp; fragility signals</li>
+                        <li>Calendar-aware delay engine</li>
+                        <li>Blind spot detection</li>
+                    </ul>
+                </div>
+                <div class="stage">
+                    <div class="stage-top" style="background:linear-gradient(90deg,#C89A2B,#b07000)" aria-hidden="true"></div>
+                    <span class="stage-num">PHASE 05</span>
+                    <span class="stage-icon" aria-hidden="true">🎯</span>
+                    <div class="stage-name">Closure &amp; Learning</div>
+                    <span class="stage-role">Prove &amp; Improve</span>
+                    <ul class="stage-bullets">
+                        <li>Capture lessons (forced)</li>
+                        <li>Validate impact (supervisor)</li>
+                        <li>Prove value delivered</li>
+                        <li>Update patterns &amp; library</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="key-diff anim">
+                <span class="key-diff-icon" aria-hidden="true">⭐</span>
+                <div>
+                    <div class="key-diff-title">Key Differentiator — No Silent Bypass</div>
+                    <div class="key-diff-text">Tasks do not fully close until lesson capture and validated impact are recorded. This is a non-negotiable platform guardrail — not a best-practice suggestion. Every closure is an evidence event that feeds organisational intelligence.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MODULES -->
+    <section class="section modules" id="modules" aria-labelledby="modules-title">
+        <div class="container">
+            <div class="sec-hdr center anim">
+                <span class="eyebrow">Platform Modules</span>
+                <h2 id="modules-title" class="h2">Six modules.<br />One connected intelligence layer.</h2>
+                <p class="sub" style="margin:0 auto">Every module is tenant-safe, governed, and connected — no siloed data, no ungoverned AI, no unvalidated outputs.</p>
+            </div>
+            <div class="mod-grid">
+
+                <div class="mod-card anim">
+                    <div class="mod-bar" style="background:linear-gradient(90deg,#061B3A,#002b60)" aria-hidden="true"></div>
+                    <div class="mod-icon-bg" style="background:#eef2f8;color:#061B3A" aria-hidden="true">⬡</div>
+                    <div class="mod-name">Execution Governance</div>
+                    <span class="mod-tag" style="color:#061B3A">Control from day one</span>
+                    <div class="mod-desc">Project setup, import review, baseline activation, permissions, and all-or-nothing validation. Governance is not optional — it is built in.</div>
+                    <ul class="mod-feats">
+                        <li style="color:#061B3A">Project setup &amp; import control</li>
+                        <li style="color:#061B3A">Baseline activation &amp; locking</li>
+                        <li style="color:#061B3A">RBAC permissions model</li>
+                        <li style="color:#061B3A">Project Supervisor accountability</li>
+                    </ul>
+                </div>
+
+                <div class="mod-card anim" style="transition-delay:.07s">
+                    <div class="mod-bar" style="background:linear-gradient(90deg,#e07020,#d97706)" aria-hidden="true"></div>
+                    <div class="mod-icon-bg" style="background:#fff0e6;color:#e07020" aria-hidden="true">⚠</div>
+                    <div class="mod-name">Project Early Warnings</div>
+                    <span class="mod-tag" style="color:#e07020">See risk before failure lands</span>
+                    <div class="mod-desc">Calendar-aware delay engine, workload pressure detection, fragility signals, and blind-spot analysis — surfaced before impact occurs.</div>
+                    <ul class="mod-feats">
+                        <li style="color:#b85c00">Calendar-aware delay detection</li>
+                        <li style="color:#b85c00">Resource &amp; workload pressure</li>
+                        <li style="color:#b85c00">Dependency &amp; fragility signals</li>
+                        <li style="color:#b85c00">Blind-spot identification</li>
+                    </ul>
+                </div>
+
+                <div class="mod-card anim" style="transition-delay:.14s">
+                    <div class="mod-bar" style="background:linear-gradient(90deg,#1a6b9a,#2080b8)" aria-hidden="true"></div>
+                    <div class="mod-icon-bg" style="background:#e8f4fc;color:#1a6b9a" aria-hidden="true">◈</div>
+                    <div class="mod-name">LessonVault</div>
+                    <span class="mod-tag" style="color:#1a6b9a">Governed capture, validation &amp; reuse</span>
+                    <div class="mod-desc">Structured lesson capture forced at closure, supervisor-validated before reuse, classified by pattern, and stored as organisational memory.</div>
+                    <ul class="mod-feats">
+                        <li style="color:#1a6b9a">Forced capture at task closure</li>
+                        <li style="color:#1a6b9a">Supervisor validation workflow</li>
+                        <li style="color:#1a6b9a">Pattern &amp; reuse classification</li>
+                        <li style="color:#1a6b9a">Organisational memory at scale</li>
+                    </ul>
+                </div>
+
+                <div class="mod-card anim" style="transition-delay:.21s">
+                    <div class="mod-bar" style="background:linear-gradient(90deg,#15803d,#22a05a)" aria-hidden="true"></div>
+                    <div class="mod-icon-bg" style="background:#e8f5ee;color:#15803d" aria-hidden="true">◆</div>
+                    <div class="mod-name">Impact Ledger</div>
+                    <span class="mod-tag" style="color:#15803d">Value you can prove</span>
+                    <div class="mod-desc">Validated impact records, benefits realisation tracking, financial evidence, and audit-backed value proof — not activity summaries.</div>
+                    <ul class="mod-feats">
+                        <li style="color:#15803d">Supervisor-validated impact records</li>
+                        <li style="color:#15803d">Benefits realisation tracking</li>
+                        <li style="color:#15803d">Financial evidence audit chain</li>
+                        <li style="color:#15803d">Three-tier value attribution</li>
+                    </ul>
+                </div>
+
+                <div class="mod-card anim" style="transition-delay:.28s">
+                    <div class="mod-bar" style="background:linear-gradient(90deg,#1a8a7a,#22a090)" aria-hidden="true"></div>
+                    <div class="mod-icon-bg" style="background:#e6f6f4;color:#1a8a7a" aria-hidden="true">◉</div>
+                    <div class="mod-name">Portfolio Intelligence</div>
+                    <span class="mod-tag" style="color:#1a8a7a">Execution truth for leadership</span>
+                    <div class="mod-desc">Executive rollups, portfolio health scores, commitment-aware financial reporting, decisions pending, and governance-ready insights — not status dashboards.</div>
+                    <ul class="mod-feats">
+                        <li style="color:#1a8a7a">Commitment-aware portfolio rollup</li>
+                        <li style="color:#1a8a7a">Baseline-gated schedule performance</li>
+                        <li style="color:#1a8a7a">Executive &amp; category reports</li>
+                        <li style="color:#1a8a7a">Audit-ready PDF export</li>
+                    </ul>
+                </div>
+
+                <div class="mod-card anim" style="transition-delay:.35s">
+                    <div class="mod-bar" style="background:linear-gradient(90deg,#6a4bb0,#8a5cc8)" aria-hidden="true"></div>
+                    <div class="mod-icon-bg" style="background:#f3eeff;color:#6a4bb0" aria-hidden="true">◎</div>
+                    <div class="mod-name">Ask Me</div>
+                    <span class="mod-tag" style="color:#6a4bb0">Project Intelligence on Demand</span>
+                    <div class="mod-desc">Amaoru's built-in Execution Intelligence Assistant. Tenant-safe Q&amp;A from your own validated lessons, financial records, and execution signals — all explainable and read-only.</div>
+                    <ul class="mod-feats">
+                        <li style="color:#6a4bb0">Tenant-safe Q&amp;A from your evidence</li>
+                        <li style="color:#6a4bb0">Financial &amp; schedule intelligence</li>
+                        <li style="color:#6a4bb0">Validated lesson retrieval</li>
+                        <li style="color:#6a4bb0">Read-only · No AI overrides</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- GUARDRAILS -->
+    <section class="section guardrails" id="guardrails" aria-labelledby="guardrails-title">
+        <div class="gr-grid-bg" aria-hidden="true"></div>
+        <div class="container gr-inner">
+            <div class="sec-hdr anim">
+                <span class="eyebrow">Non-Negotiable Guardrails</span>
+                <h2 id="guardrails-title" class="h2">The platform governs itself.<br /><span style="font-style:italic;color:var(--gold)">No exceptions. No overrides.</span></h2>
+                <p class="sub">These are not configuration options. They are platform-level commitments enforced at every layer — service, query, route, and AI boundary.</p>
+            </div>
+            <div class="gr-grid anim">
+                <div class="gr-cell">
+                    <span class="gr-cell-icon" aria-hidden="true">🔒</span>
+                    <div class="gr-cell-title">Tenant Isolation</div>
+                    <div class="gr-cell-desc">Enforced in every service and query. Tenant context is always explicit — never inferred. No cross-tenant data leakage is architecturally possible.</div>
+                </div>
+                <div class="gr-cell">
+                    <span class="gr-cell-icon" aria-hidden="true">👥</span>
+                    <div class="gr-cell-title">RBAC &amp; Permissions</div>
+                    <div class="gr-cell-desc">Admin · Supervisor · Employee · Project Supervisor (Responsibility). Role gates enforced before any action — no privilege escalation possible.</div>
+                </div>
+                <div class="gr-cell">
+                    <span class="gr-cell-icon" aria-hidden="true">📋</span>
+                    <div class="gr-cell-title">Full Audit Trail</div>
+                    <div class="gr-cell-desc">Every action is recorded with actor, timestamp, and context. No action occurs without a corresponding audit entry — governance is not optional.</div>
+                </div>
+                <div class="gr-cell">
+                    <span class="gr-cell-icon" aria-hidden="true">📐</span>
+                    <div class="gr-cell-title">Approved Baseline</div>
+                    <div class="gr-cell-desc">Immutable source before edits. No schedule performance, budget comparison, or earned-value calculation runs without an approved, locked baseline.</div>
+                </div>
+                <div class="gr-cell">
+                    <span class="gr-cell-icon" aria-hidden="true">🔢</span>
+                    <div class="gr-cell-title">Data Integrity</div>
+                    <div class="gr-cell-desc">No invented figures. No overrides. Budget, commitment, and schedule data comes from governed, approved records only — never inferred by AI.</div>
+                </div>
+                <div class="gr-cell">
+                    <span class="gr-cell-icon" aria-hidden="true">🚫</span>
+                    <div class="gr-cell-title">No AI Overrides</div>
+                    <div class="gr-cell-desc">AI cannot baseline, validate, approve, close, delete, or invent figures. Ask Me is advisory and read-only. Humans make every governed decision.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ASK ME -->
+    <section class="section askme" id="ask-me" aria-labelledby="askme-title">
+        <div class="container">
+            <div class="askme-layout">
+                <div>
+                    <span class="eyebrow anim">Ask Me — Project Intelligence</span>
+                    <h2 id="askme-title" class="h2 anim" style="transition-delay:.07s">Q&amp;A from <span class="gold">your evidence,</span><br />not the internet.</h2>
+                    <p class="sub anim" style="transition-delay:.14s">Ask Me is Amaoru's built-in Execution Intelligence Assistant. It routes questions against your own validated lessons, task evidence, financial records, and execution signals — all tenant-scoped, all explainable. No generic AI, no invented answers.</p>
+                    <div class="askme-chips anim" style="transition-delay:.21s">
+                        <span class="askme-chip">Tenant-safe Q&amp;A</span>
+                        <span class="askme-chip">Financial evidence answers</span>
+                        <span class="askme-chip">Schedule delay intelligence</span>
+                        <span class="askme-chip">Validated lesson retrieval</span>
+                        <span class="askme-chip">Read-only — no overrides</span>
+                    </div>
+                </div>
+                <div class="askme-demo anim" style="transition-delay:.15s">
+                    <div class="askme-bar">
+                        <span class="askme-dot" style="background:#ff5f57" aria-hidden="true"></span>
+                        <span class="askme-dot" style="background:#ffbe2e" aria-hidden="true"></span>
+                        <span class="askme-dot" style="background:#27c840" aria-hidden="true"></span>
+                        <span class="askme-bar-label">Ask Me · Tenant: demo · Read-only</span>
+                    </div>
+                    <p class="askme-q">"Which projects have execution risk signals or overdue commitments this week?"</p>
+                    <div class="askme-al">Answer — sourced from governed execution records</div>
+                    <div class="askme-block">
+                        <div class="askme-row">
+                            <span class="askme-row-icon" aria-hidden="true">⚠</span>
+                            <span><strong>Alpha Transformation:</strong> Vendor payment £42,000 overdue by 3 days. Task milestone also 2 days behind baseline — Early Warning flagged.</span>
+                        </div>
+                        <div class="askme-row">
+                            <span class="askme-row-icon" aria-hidden="true">📡</span>
+                            <span><strong>Meridian ERP:</strong> 3 tasks have workload pressure signals. Resource assigned to 4 parallel dependencies — fragility risk detected.</span>
+                        </div>
+                        <div class="askme-row">
+                            <span class="askme-row-icon" aria-hidden="true">💷</span>
+                            <span><strong>Infrastructure Refresh:</strong> Commitment of £28,500 due in 6 days. Budget remaining at 12% of annual — consider variation review.</span>
+                        </div>
+                    </div>
+                    <div class="askme-src">
+                        <span aria-hidden="true">◎</span> Evidence: Impact Ledger + Early Warnings + Budget Governance · Tenant-scoped · Explainable
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF (Testimonials) -->
+    <section class="social-proof" aria-labelledby="sp-title">
+        <div class="sp-inner">
+            <div class="sp-item anim">
+                <p class="sp-quote">"Amaoru has transformed how we govern delivery. The 'no silent bypass' guardrail means every project closes with validated intelligence — not just a status update."</p>
+                <div class="sp-author">
+                    <span class="sp-avatar">JD</span>
+                    <div><div class="sp-name">Jane Donnelly</div><div class="sp-title">VP, Transformation Office, GlobalBank</div></div>
+                </div>
+            </div>
+            <div class="sp-item anim" style="transition-delay:.08s">
+                <p class="sp-quote">"We were drowning in post-mortems no one read. Now our PMO has a searchable library of validated lessons that every new project starts with. The compound effect is real."</p>
+                <div class="sp-author">
+                    <span class="sp-avatar">MR</span>
+                    <div><div class="sp-name">Marcus Reed</div><div class="sp-title">Director, Portfolio Delivery, HealthNet</div></div>
+                </div>
+            </div>
+            <div class="sp-item anim" style="transition-delay:.16s">
+                <p class="sp-quote">"The Impact Ledger gives me confidence that every pound spent is traceable to a validated outcome. For the first time, I can prove value, not just report activity."</p>
+                <div class="sp-author">
+                    <span class="sp-avatar">SW</span>
+                    <div><div class="sp-name">Sarah Whitfield</div><div class="sp-title">CFO, Manufacturing Group</div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ICP -->
+    <section class="section icp" id="who" aria-labelledby="icp-title">
+        <div class="container">
+            <div class="sec-hdr anim">
+                <span class="eyebrow">Who It's For</span>
+                <h2 id="icp-title" class="h2">A different message for each role.</h2>
+                <p class="sub">Amaoru speaks to every layer of your delivery organisation — with a clear, specific reason to use it.</p>
+            </div>
+            <div class="icp-tabs anim" role="tablist" aria-label="Persona selector">
+                <button class="icp-tab active" role="tab" aria-selected="true" aria-controls="ip0" id="tab0">PMO Leader</button>
+                <button class="icp-tab" role="tab" aria-selected="false" aria-controls="ip1" id="tab1">Transformation Director</button>
+                <button class="icp-tab" role="tab" aria-selected="false" aria-controls="ip2" id="tab2">Executive Sponsor</button>
+                <button class="icp-tab" role="tab" aria-selected="false" aria-controls="ip3" id="tab3">Finance &amp; Governance Lead</button>
+                <button class="icp-tab" role="tab" aria-selected="false" aria-controls="ip4" id="tab4">Consulting / PSO</button>
+            </div>
+
+            <div class="icp-panel active" id="ip0" role="tabpanel" aria-labelledby="tab0">
+                <div class="icp-pain"><span class="icp-lbl">Your pain today</span><p class="icp-pain-text">"We track project status endlessly but the organisation never gets smarter. The same problems recur. No one reads the post-mortems."</p></div>
+                <div><span class="icp-lbl icp-lbl-gold">How Amaoru changes it</span><p class="icp-val-text">Amaoru transforms your PMO from a status-reporting function to an execution intelligence hub. Early Warnings surface risk before it lands. Portfolio Intelligence shows baseline-gated performance across every project. LessonVault builds a searchable library of validated delivery intelligence — reused automatically at project initiation.</p><div class="icp-mods"><span class="icp-mod">Early Warnings</span><span class="icp-mod">Portfolio Intelligence</span><span class="icp-mod">LessonVault</span><span class="icp-mod">Ask Me</span></div></div>
+            </div>
+            <div class="icp-panel" id="ip1" role="tabpanel" aria-labelledby="tab1">
+                <div class="icp-pain"><span class="icp-lbl">Your pain today</span><p class="icp-pain-text">"We run programme retrospectives. We write the lessons. Then the next programme starts and everyone repeats the exact same avoidable mistakes."</p></div>
+                <div><span class="icp-lbl icp-lbl-gold">How Amaoru changes it</span><p class="icp-val-text">Tasks cannot close in Amaoru without lesson capture — no silent bypass. Lessons are validated by supervisors before entering the library. At the next project's initiation phase, those validated lessons are surfaced automatically through Ask Me. The institutional knowledge compound effect starts immediately.</p><div class="icp-mods"><span class="icp-mod">LessonVault</span><span class="icp-mod">Execution Governance</span><span class="icp-mod">Ask Me</span></div></div>
+            </div>
+            <div class="icp-panel" id="ip2" role="tabpanel" aria-labelledby="tab2">
+                <div class="icp-pain"><span class="icp-lbl">Your pain today</span><p class="icp-pain-text">"I approve programme budgets and receive activity reports. I have no way to verify that any of that effort actually produced the business value we projected."</p></div>
+                <div><span class="icp-lbl icp-lbl-gold">How Amaoru changes it</span><p class="icp-val-text">The Impact Ledger creates a traceable, supervisor-validated evidence chain from delivery effort to business outcome. Portfolio Intelligence provides governance-ready executive reports — not activity summaries. Every value claim is evidence-backed, auditable, and explainable. You see what was delivered, validated, and proven.</p><div class="icp-mods"><span class="icp-mod">Impact Ledger</span><span class="icp-mod">Portfolio Intelligence</span><span class="icp-mod">Budget Governance</span></div></div>
+            </div>
+            <div class="icp-panel" id="ip3" role="tabpanel" aria-labelledby="tab3">
+                <div class="icp-pain"><span class="icp-lbl">Your pain today</span><p class="icp-pain-text">"Budget approvals happen informally. Commitments are made without proper authorisation. When I ask for spend evidence I get someone's spreadsheet."</p></div>
+                <div><span class="icp-lbl icp-lbl-gold">How Amaoru changes it</span><p class="icp-val-text">Amaoru's Finance Appropriation layer enforces governed budget baseline approval, locks approved records, enforces commitment guardrails against annual budgets, and creates a full financial audit chain per project. Self-approval is blocked. Every change goes through a controlled variation workflow. Every commitment is authorised before it is made.</p><div class="icp-mods"><span class="icp-mod">Budget Baseline</span><span class="icp-mod">Commitment Guardrails</span><span class="icp-mod">Impact Ledger</span><span class="icp-mod">Audit Trail</span></div></div>
+            </div>
+            <div class="icp-panel" id="ip4" role="tabpanel" aria-labelledby="tab4">
+                <div class="icp-pain"><span class="icp-lbl">Your pain today</span><p class="icp-pain-text">"Our best delivery knowledge walks out the door with our senior consultants. Every new engagement starts from scratch. We cannot scale what we know."</p></div>
+                <div><span class="icp-lbl icp-lbl-gold">How Amaoru changes it</span><p class="icp-val-text">Amaoru codifies engagement wisdom into a governed LessonVault — validated, classified, and permanently retained. Ask Me makes that knowledge immediately accessible to every team member at the point of decision. Portfolio Intelligence scales execution insight across all engagements. Individual expertise becomes institutional competitive advantage.</p><div class="icp-mods"><span class="icp-mod">LessonVault</span><span class="icp-mod">Ask Me</span><span class="icp-mod">Portfolio Intelligence</span><span class="icp-mod">Execution Governance</span></div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section" id="cta" aria-labelledby="cta-title">
+        <div class="cta-bg" aria-hidden="true"></div>
+        <div class="cta-glow" aria-hidden="true"></div>
+        <div class="container" style="position:relative">
+            <span class="eyebrow anim">Start the Conversation</span>
+            <h2 id="cta-title" class="h2 anim" style="transition-delay:.07s">
+                Every project running without Amaoru<br />is risk unseen, value unproved,<br /><em>and a lesson lost forever.</em>
+            </h2>
+            <p class="cta-sub-txt anim" style="transition-delay:.14s">See how Amaoru Platform embeds execution intelligence, value governance, and institutional learning into your project lifecycle — from initiation to closure.</p>
+            <div class="cta-btns anim" style="transition-delay:.21s">
+                <a href="https://demo.amaoru.com/" class="btn-gold" target="_blank">Book a Demo →</a>
+                <a href="https://demo.amaoru.com/" class="btn-ghost" target="_blank">Explore Live Platform</a>
+            </div>
+            <div class="cta-journey anim" style="transition-delay:.28s">
+                <div class="cta-step">
+                    <span class="cta-time">15 min</span>
+                    <div class="cta-desc">Discovery call — understand your delivery environment, phase gaps, and priority use case</div>
+                </div>
+                <div class="cta-step">
+                    <span class="cta-time">30 min</span>
+                    <div class="cta-desc">Platform walkthrough — lifecycle stages, modules, and guardrails tailored to your ICP</div>
+                </div>
+                <div class="cta-step">
+                    <span class="cta-time">Next step</span>
+                    <div class="cta-desc">Pilot scoping — minimum lovable deployment, success metrics, and governance definition</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-brand">
+            <span class="name">AMA<span class="gold-letter">O</span>RU</span>
+            <span class="tag">Execution Intelligence · Turning Work Into Wisdom</span>
+        </div>
+        <div class="footer-links">
+            <a href="#lifecycle">Project Lifecycle</a>
+            <a href="#modules">Modules</a>
+            <a href="#guardrails">Guardrails</a>
+            <a href="#who">Who It's For</a>
+            <a href="https://demo.amaoru.com/" target="_blank">Live Demo</a>
+            <a href="#" style="color:rgba(255,255,255,.3)">Privacy Policy</a>
+            <a href="#" style="color:rgba(255,255,255,.3)">Terms of Service</a>
+        </div>
+        <div class="footer-compliance">
+            <span>SOC 2 Type II</span>
+            <span>ISO 27001</span>
+            <span>GDPR Compliant</span>
+            <span>Enterprise SSO</span>
+        </div>
+        <div class="footer-copy">© 2026 Amaoru Platform · Enterprise Execution Intelligence &amp; Value Assurance · All rights reserved</div>
+    </footer>
+
+    <script>
+        /* ── SCROLL ANIMATIONS ───────────────────────────────────────────── */
+        const obs = new IntersectionObserver(
+            entries => entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('v');
+                    obs.unobserve(e.target);
+                }
+            }), { threshold: 0.1 }
+        );
+        document.querySelectorAll('.anim').forEach(el => obs.observe(el));
+
+        /* ── MOBILE NAV TOGGLE ───────────────────────────────────────────── */
+        const toggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        toggle.addEventListener('click', () => {
+            const open = toggle.classList.toggle('open');
+            navLinks.classList.toggle('open');
+            toggle.setAttribute('aria-expanded', open);
+        });
+
+        /* ── STICKY CTA ───────────────────────────────────────────────────── */
+        const sticky = document.getElementById('stickyCta');
+        let stickyShown = false;
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            const hero = document.querySelector('.hero');
+            const heroHeight = hero.offsetHeight;
+            if (scrollY > heroHeight * 0.6 && !stickyShown) {
+                sticky.classList.add('visible');
+                stickyShown = true;
+            } else if (scrollY <= heroHeight * 0.4 && stickyShown) {
+                sticky.classList.remove('visible');
+                stickyShown = false;
+            }
+        }, { passive: true });
+
+        /* ── ICP TABS (ARIA-enhanced) ────────────────────────────────────── */
+        const tabs = document.querySelectorAll('.icp-tab');
+        const panels = {
+            ip0: document.getElementById('ip0'),
+            ip1: document.getElementById('ip1'),
+            ip2: document.getElementById('ip2'),
+            ip3: document.getElementById('ip3'),
+            ip4: document.getElementById('ip4')
+        };
+
+        function activateTab(tab) {
+            tabs.forEach(t => {
+                t.classList.remove('active');
+                t.setAttribute('aria-selected', 'false');
+            });
+            Object.values(panels).forEach(p => p.classList.remove('active'));
+
+            tab.classList.add('active');
+            tab.setAttribute('aria-selected', 'true');
+            const panelId = tab.getAttribute('aria-controls');
+            if (panels[panelId]) panels[panelId].classList.add('active');
+        }
+
+        tabs.forEach((tab, index) => {
+            tab.addEventListener('click', () => activateTab(tab));
+            tab.addEventListener('keydown', (e) => {
+                let direction = 0;
+                if (e.key === 'ArrowRight') direction = 1;
+                else if (e.key === 'ArrowLeft') direction = -1;
+                else if (e.key === 'Home') {
+                    e.preventDefault();
+                    tabs[0].focus();
+                    activateTab(tabs[0]);
+                    return;
+                } else if (e.key === 'End') {
+                    e.preventDefault();
+                    tabs[tabs.length - 1].focus();
+                    activateTab(tabs[tabs.length - 1]);
+                    return;
+                }
+                if (direction !== 0) {
+                    e.preventDefault();
+                    const newIndex = (index + direction + tabs.length) % tabs.length;
+                    tabs[newIndex].focus();
+                    activateTab(tabs[newIndex]);
+                }
+            });
+        });
+
+        /* ── STAT COUNTERS (smooth) ──────────────────────────────────────── */
+        const counterObserver = new IntersectionObserver((entries) => {
+            if (!entries[0].isIntersecting) return;
+            document.querySelectorAll('.stat-n span').forEach(el => {
+                const target = parseFloat(el.textContent);
+                if (isNaN(target)) return;
+                let current = 0;
+                const step = () => {
+                    current = Math.min(current + target / 32, target);
+                    el.textContent = current >= target ? (Number.isInteger(target) ? target : target.toFixed(1)) :
+                        Math.round(current);
+                    if (current < target) requestAnimationFrame(step);
+                };
+                step();
+            });
+            counterObserver.disconnect();
+        }, { threshold: 0.3 });
+        const statsGrid = document.querySelector('.stats-grid');
+        if (statsGrid) counterObserver.observe(statsGrid);
+
+        /* ── NAV SHADOW ───────────────────────────────────────────────────── */
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('nav');
+            nav.style.boxShadow = window.scrollY > 8 ? '0 2px 20px rgba(6,27,58,.09)' : 'none';
+        }, { passive: true });
+    </script>
+</body>
+</html>
